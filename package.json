@@ -1,0 +1,37 @@
+{
+ "name": "onlyprogrammers",
+ "version": "0.1.0",
+ "private": true,
+ "scripts": {
+  "build": "next build",
+  "db:migrate": "drizzle-kit generate && bun ./src/db/migrate.ts",
+  "db:push": "drizzle-kit push",
+  "dev": "next dev",
+  "lint": "next lint",
+  "start": "next start"
+ },
+ "dependencies": {
+  "@auth/drizzle-adapter": "^1.1.0",
+  "@libsql/client": "^0.6.0",
+  "@paralleldrive/cuid2": "^2.2.2",
+  "drizzle-orm": "^0.30.10",
+  "next": "14.2.3",
+  "next-auth": "^5.0.0-beta.18",
+  "react": "^18",
+  "react-dom": "^18"
+ },
+ "devDependencies": {
+  "@types/node": "^20",
+  "@types/react": "^18",
+  "@types/react-dom": "^18",
+  "autoprefixer": "^10.0.1",
+  "drizzle-kit": "^0.21.1",
+  "eslint": "9.2.0",
+  "eslint-config-next": "14.1.4",
+  "postcss": "^8",
+  "prettier-plugin-pkg": "^0.18.1",
+  "prettier-plugin-tailwindcss": "^0.5.14",
+  "tailwindcss": "^3.3.0",
+  "typescript": "^5"
+ }
+}

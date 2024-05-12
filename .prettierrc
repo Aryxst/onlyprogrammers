@@ -1,0 +1,8 @@
+{
+ "arrowParens": "avoid",
+ "singleQuote": true,
+ "jsxSingleQuote": true,
+ "printWidth": 600,
+ "tabWidth": 1,
+ "plugins": ["prettier-plugin-tailwindcss","prettier-plugin-pkg"]
+}
