@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
+import { unstable_cache as cacheV2 } from 'next/cache';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { unstable_cache as cacheV2 } from 'next/cache';
 import { marked } from 'marked';
 import { db, schema } from '@/db';
 import { eq } from 'drizzle-orm';
@@ -26,7 +26,8 @@ const getCachedUser = cacheV2(
 
 const messagesCache = cacheV2(
  async () => {
-  const messages = await db.query.globalMessage.findMany();
+  const messages = await db.select().from(schema.globalMessage);
+
   return Promise.all(
    messages.map(async message => {
     const creator = await getCachedUser(message.authorId);
@@ -38,7 +39,7 @@ const messagesCache = cacheV2(
   );
  },
  ['get-global-messages'],
- { revalidate: 30 },
+ { revalidate: 100 },
 );
 export type MessageType = Awaited<ReturnType<typeof messagesCache>>[number];
 
@@ -53,7 +54,7 @@ export default async function Page() {
  const messages = await messagesCache();
 
  return (
-  <main className='mt-4 px-3 py-10'>
+  <main className='my-4 px-3 py-10'>
    <section className='mx-auto max-w-7xl space-y-6'>
     <div className='mx-auto max-w-2xl'>
      <Client />
@@ -76,7 +77,7 @@ export default async function Page() {
             <li className='text-sm font-bold'>{message.creator?.name}</li>
             <li className='text-xs text-neutral-500'>
              <span className='mr-2'>&bull;</span>
-             {timeSince(creationDate)}
+             {timeSince(creationDate)} ago
             </li>
            </ul>
           </div>
