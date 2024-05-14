@@ -65,20 +65,19 @@ export function MessageInteractionDropdown(props: MessageInteractionDropdownProp
     <Ellipsis width={16} />
    </DropdownMenuTrigger>
    <DropdownMenuContent className='p-2'>
-    {props.isMessageAuthor ||
-     (props.isAdmin && (
-      <DropdownMenuItem
-       className='flex cursor-pointer flex-row items-center gap-4'
-       onClick={() => {
-        /* if (confirm('Are you sure you want to delete this message?'))  */
-        deleteGlobalMessage(props.message.id, props.message.authorId);
-       }}
-      >
-       <Trash2 width={20} />
-       <span>Delete</span>
-      </DropdownMenuItem>
-     ))}
-    <DropdownMenuItem className='flex cursor-pointer flex-row items-center gap-4'>
+    {(props.isMessageAuthor || props.isAdmin) && (
+     <DropdownMenuItem
+      className='flex flex-row items-center gap-4'
+      onClick={() => {
+       /* if (confirm('Are you sure you want to delete this message?'))  */
+       deleteGlobalMessage(props.message.id, props.message.authorId);
+      }}
+     >
+      <Trash2 width={20} />
+      <span>Delete</span>
+     </DropdownMenuItem>
+    )}
+    <DropdownMenuItem className='flex flex-row items-center gap-4'>
      <Flag width={20} />
      <span>Report</span>
     </DropdownMenuItem>

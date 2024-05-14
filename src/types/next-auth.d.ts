@@ -2,6 +2,8 @@ import type { DefaultSession } from 'next-auth';
 
 export type ExtendedUser = DefaultSession['user'] & {
  role: 'USER' | 'ADMIN';
+ joinedAt: Date;
+ emailVerified?: Date | null;
 };
 
 declare module 'next-auth' {

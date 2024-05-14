@@ -26,7 +26,7 @@ export async function deleteGlobalMessage(id: string, authorId: string) {
  const session = await auth();
  const userId = session?.user?.id!;
 
- if (!userId || userId !== authorId || !(session.user.role === 'ADMIN')) {
+ if (!userId || userId !== authorId || (userId !== authorId && session.user.role !== 'ADMIN')) {
   throw Error('Unauthorized');
  }
 

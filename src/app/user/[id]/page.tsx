@@ -29,9 +29,6 @@ export async function generateMetadata({ params: { id } }: Props) {
 }
 
 export default async function Page({ params: { id } }: Props) {
- // Artificial delay to showcase static caching
- await new Promise(resolve => setTimeout(resolve, 1500));
-
  const user = await getUser(id);
 
  if (!user) notFound();
