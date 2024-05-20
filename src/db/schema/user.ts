@@ -14,12 +14,12 @@ export const user = sqliteTable('user', {
  email: text('email').notNull(),
  emailVerified: integer('emailVerified', { mode: 'timestamp_ms' }),
  image: text('image'),
- role: text('role').$type<'USER' | 'ADMIN'>().notNull().default('USER'),
+ role: text('role').$type<UserRole>().notNull().default('USER'),
  joinedAt: integer('joinedAt', { mode: 'timestamp_ms' })
   .notNull()
   .default(sql`(unixepoch() * 1000)`),
 });
-
+export type UserRole = 'USER' | 'ADMIN';
 export const userRelations = relations(user, ({ many }) => ({
  posts: many(post),
  globalMessages: many(globalMessage),

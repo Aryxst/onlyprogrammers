@@ -15,6 +15,7 @@ export async function deleteUser(user: ExtendedUser) {
  await db.delete(schema.user).where(eq(schema.user.id, user.id!));
 
  revalidateTag('get-all-users_admin');
+ revalidateTag('get-global-messages');
 }
 export async function invalidateCache() {
  revalidateTag('get-all-users_admin');

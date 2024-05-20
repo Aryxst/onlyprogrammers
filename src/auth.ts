@@ -5,6 +5,7 @@ import db, { user } from '@/db';
 import { eq } from 'drizzle-orm';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+ trustHost: true,
  theme: {
   logo: 'https://avatars.githubusercontent.com/u/101392520?v=4',
  },
@@ -32,16 +33,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   async jwt({ token, trigger, session }) {
    if (!token.sub) return token;
 
-   const existingUser = await db.query.user.findFirst({
-    where: eq(user.id, token.sub),
-   });
-
    if (trigger == 'update') {
     return {
      ...token,
      name: session.user.name,
     };
    }
+
+   const existingUser = await db.query.user.findFirst({
+    where: eq(user.id, token.sub),
+   });
+
    if (!existingUser) return token;
    token.role = existingUser.role;
 

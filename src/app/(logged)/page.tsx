@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { unstable_cache as cacheV2 } from 'next/cache';
-import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { marked } from 'marked';
 import { db, schema } from '@/db';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import Client, { MessageInteractionDropdown } from './component.client';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import getSession from '@/lib/getSession';
 import { timeSince } from '@/lib/time';
 
@@ -21,12 +21,12 @@ const getCachedUser = cacheV2(
   });
  },
  ['get-cached-user'],
- { revalidate: 300 },
+ { revalidate: 360, tags: ['get-cached-user'] },
 );
 
 const messagesCache = cacheV2(
  async () => {
-  const messages = await db.select().from(schema.globalMessage);
+  const messages = await db.select().from(schema.globalMessage).orderBy(desc(schema.globalMessage.createdAt));
 
   return Promise.all(
    messages.map(async message => {
@@ -38,8 +38,8 @@ const messagesCache = cacheV2(
    }),
   );
  },
- ['get-global-messages'],
- { revalidate: 100 },
+ [],
+ { revalidate: 120, tags: ['get-global-messages'] },
 );
 export type MessageType = Awaited<ReturnType<typeof messagesCache>>[number];
 
@@ -66,24 +66,33 @@ export default async function Page() {
         const isAdmin = user?.role === 'ADMIN';
 
         return (
-         <li className='flex min-h-24 flex-col gap-1 border-b border-b-neutral-200' key={i} id={message.id}>
-          <div className='flex flex-row justify-between'>
-           <ul className='flex flex-row items-center gap-2'>
-            <li>
-             <Link href={`/user/${message.creator?.id}`}>
-              <Image src={message.creator?.image || ''} className='rounded-full' alt={`${message.creator?.name}'s profile`} width={40} height={40} title={message.creator?.name || 'N/A'} />
-             </Link>
-            </li>
-            <li className='text-sm font-bold'>{message.creator?.name}</li>
-            <li className='text-xs text-neutral-500'>
-             <span className='mr-2'>&bull;</span>
-             {timeSince(creationDate)} ago
-            </li>
-           </ul>
+         <li className='flex min-h-24 flex-col gap-1 border-b border-b-neutral-200' key={i}>
+          <div className='flex flex-row gap-2'>
+           <Link href={`/user/${message.creator?.id}`}>
+            <Avatar>
+             <AvatarImage src={message.creator?.image!} alt={message.creator?.name!} />
+             <AvatarFallback>{message.creator?.name?.at(0)?.toUpperCase()}</AvatarFallback>
+            </Avatar>
+           </Link>
+           <div className='flex flex-col justify-center'>
+            <ul className='flex flex-row items-center gap-2'>
+             <li className='text-sm font-bold'>{message.creator?.name}</li>
+             <li className='text-xs text-neutral-500'>
+              <span className='mr-2'>&bull;</span>
+              {timeSince(creationDate)} ago
+             </li>
+             {message.editedAt && (
+              <li className='text-xs text-neutral-500'>
+               <span className='mr-2'>(edited)</span>
+              </li>
+             )}
+            </ul>
+           </div>
           </div>
-          <div className='mt-4 pl-[52px]'>
+
+          <div className='mt-4'>
            <div className='prose prose-a:text-blue-500 prose-a:no-underline prose-a:hover:underline' dangerouslySetInnerHTML={{ __html: marked.parse(message.content) }} />
-           <ul className='mt-2 flex flex-row justify-end gap-2 pr-4'>
+           <ul className='mt-2 flex flex-row justify-end gap-2 pr-8'>
             <li>
              <MessageInteractionDropdown message={message} isMessageAuthor={isMessageAuthor} isAdmin={isAdmin} />
             </li>

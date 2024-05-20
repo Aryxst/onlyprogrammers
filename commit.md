@@ -1,13 +1,2 @@
-- add shadcn
-- add zodResolver for forms, used to validate data to update the database in /settings and /, define validation schemas for present server actions
-- add actions for creating and deleting globalMessages, and changing user settings
-- add 80% of app's database table: post, user(auth, ...), messages, various comments. All with relations
-- add loading spinner
-- add user profile viewer route, right now only displays avatar and join date
-- add basic role assign system through jwt token and server session
-- use unstable_cache to cache database queries on / for globalMessages
-- add login page with github OAuth
-- add some prebaked components like a signInButton component
-- add navbar with avatar and dropdown menu
-- create a time module with date utilities
-- config auth's session and jwt extended(custom) types
+- fix settings page local name not being updated
+- add user post

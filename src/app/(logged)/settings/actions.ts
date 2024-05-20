@@ -1,5 +1,4 @@
 'use server';
-import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth';
 import { db, user } from '@/db';
 import { eq } from 'drizzle-orm';
@@ -16,6 +15,4 @@ export async function updateProfile(values: UpdateProfileValues) {
  const { name } = updateProfileSchema.parse(values);
 
  await db.update(user).set({ name }).where(eq(user.id, userId));
-
- revalidatePath('/');
 }

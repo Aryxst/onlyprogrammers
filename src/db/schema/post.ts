@@ -13,6 +13,10 @@ export const post = sqliteTable('post', {
   .references(() => user.id, { onDelete: 'cascade' }),
  title: text('title').notNull(),
  content: text('content').notNull(),
+ tags: text('tags', { mode: 'json' })
+  .notNull()
+  .$type<string[]>()
+  .default(sql`(json_array())`),
  createdAt: integer('createdAt', { mode: 'timestamp_ms' })
   .notNull()
   .default(sql`(unixepoch() * 1000)`),
@@ -36,7 +40,7 @@ export const postComment = sqliteTable('postComment', {
   .notNull()
   .default(sql`(unixepoch() * 1000)`),
  authorId: text('authorId').notNull(),
- postId: integer('postId'),
+ postId: integer('postId').references(() => post.id, { onDelete: 'cascade' }),
 });
 
 export const postCommentRelations = relations(postComment, ({ one }) => ({

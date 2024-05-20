@@ -1,7 +1,7 @@
 'use client';
+import { useSession } from 'next-auth/react';
 import { UpdateProfileValues, updateProfileSchema } from '@/lib/validation';
 import { ExtendedUser } from '@/types/next-auth';
-import { signOut, useSession } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -19,7 +19,6 @@ export default function SettingsPage({ user }: Props) {
   resolver: zodResolver(updateProfileSchema),
   defaultValues: { name: user.name || '' },
  });
-
  async function onSubmit(data: UpdateProfileValues) {
   try {
    await updateProfile(data);
