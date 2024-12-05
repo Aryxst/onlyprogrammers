@@ -91,7 +91,7 @@ export default async function Page() {
           </div>
 
           <div className='mt-4'>
-           <div className='prose prose-a:text-blue-500 prose-a:no-underline prose-a:hover:underline' dangerouslySetInnerHTML={{ __html: marked.parse(message.content) }} />
+           <div className='prose prose-a:text-blue-500 prose-a:no-underline hover:prose-a:underline' dangerouslySetInnerHTML={{ __html: marked.parse(message.content) }} />
            <ul className='mt-2 flex flex-row justify-end gap-2 pr-8'>
             <li>
              <MessageInteractionDropdown message={message} isMessageAuthor={isMessageAuthor} isAdmin={isAdmin} />
