@@ -1,2 +1,0 @@
-- fix settings page local name not being updated
-- add user post
