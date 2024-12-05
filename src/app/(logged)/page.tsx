@@ -7,7 +7,7 @@ import { db, schema } from '@/db';
 import { desc, eq } from 'drizzle-orm';
 import Client, { MessageInteractionDropdown } from './component.client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import getSession from '@/lib/getSession';
+import getSession from '@/lib/get-session';
 import { timeSince } from '@/lib/time';
 
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@ import { unstable_cache as cacheV2 } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { DataTable, columns } from './component.client';
 import { db } from '@/db';
-import getSession from '@/lib/getSession';
+import getSession from '@/lib/get-session';
 
 const getAllCachedUsers = cacheV2(
  async () => {

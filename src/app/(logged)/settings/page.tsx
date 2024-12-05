@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import SettingsPage from './component.client';
-import getSession from '@/lib/getSession';
+import getSession from '@/lib/get-session';
 
 export const metadata: Metadata = {
  title: 'Only Programmers - Settings',

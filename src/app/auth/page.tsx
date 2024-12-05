@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import LoginForm from './component.client';
-import getSession from '@/lib/getSession';
+import getSession from '@/lib/get-session';
 
 export default async function Page() {
  const session = await getSession();
