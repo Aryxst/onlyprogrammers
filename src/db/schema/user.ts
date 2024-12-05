@@ -1,6 +1,6 @@
 import { relations, sql } from 'drizzle-orm';
 import { sqliteTable, text, primaryKey, integer, int } from 'drizzle-orm/sqlite-core';
-import type { AdapterAccountType } from 'next-auth/adapters';
+import type { AdapterAccount } from 'next-auth/adapters';
 import { createId } from '@paralleldrive/cuid2';
 import { globalMessage } from './message';
 import { post } from './post';
@@ -31,7 +31,7 @@ export const account = sqliteTable(
   userId: text('userId')
    .notNull()
    .references(() => user.id, { onDelete: 'cascade' }),
-  type: text('type').$type<AdapterAccountType>().notNull(),
+  type: text('type').$type<AdapterAccount>().notNull(),
   provider: text('provider').notNull(),
   providerAccountId: text('providerAccountId').notNull(),
   refresh_token: text('refresh_token'),
