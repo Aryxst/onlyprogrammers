@@ -9,7 +9,7 @@ const getAllCachedReports = cacheV2(
   return await db.query.globalMessageReport.findMany();
  },
  [],
- { revalidate: 300, tags: ['get-all-reports_admin'] },
+ { revalidate: 300, tags: ['get-all-global-messages-reports_admin'] },
 );
 
 export default async function Page() {

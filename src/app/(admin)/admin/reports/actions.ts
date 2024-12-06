@@ -14,9 +14,9 @@ export async function deleteGlobalMessageReport(id: string) {
  }
 
  await db.delete(schema.globalMessageReport).where(eq(schema.globalMessageReport.id, id));
- revalidateTag('get-all-reports_admin');
+ revalidateTag('get-all-global-messages-reports_admin');
 }
 export async function invalidateCache() {
- revalidateTag('get-all-reports_admin');
+ revalidateTag('get-all-global-messages-reports_admin');
  redirect('/admin/reports');
 }
